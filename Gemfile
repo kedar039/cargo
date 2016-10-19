@@ -26,6 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Authentication
 gem 'devise', '~> 3.5', '>= 3.5.6'
 
+# Get countries
+gem 'country_select'
+
 # Admin panel for the app
 gem 'activeadmin', github: 'activeadmin'
 # Use ActiveModel has_secure_password

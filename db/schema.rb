@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018025802) do
+ActiveRecord::Schema.define(version: 20161019060427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,4 +49,79 @@ ActiveRecord::Schema.define(version: 20161018025802) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "biltis", force: :cascade do |t|
+    t.string   "consigner"
+    t.string   "consignee"
+    t.string   "goods"
+    t.string   "invoice_number"
+    t.float    "asset_value"
+    t.string   "tin_no"
+    t.float    "charged_kgs"
+    t.string   "service_tax_paid_by"
+    t.float    "transit_charge"
+    t.float    "st_charge"
+    t.float    "others"
+    t.float    "cc"
+    t.float    "fov"
+    t.float    "aoc"
+    t.float    "total"
+    t.integer  "client_id"
+    t.integer  "company_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "biltis", ["client_id"], name: "index_biltis_on_client_id", using: :btree
+  add_index "biltis", ["company_id"], name: "index_biltis_on_company_id", using: :btree
+
+  create_table "branches", force: :cascade do |t|
+    t.string   "branch_code"
+    t.string   "branch_name"
+    t.string   "address"
+    t.string   "city"
+    t.integer  "zip"
+    t.string   "state"
+    t.string   "country"
+    t.string   "email"
+    t.string   "phone"
+    t.integer  "company_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "branches", ["company_id"], name: "index_branches_on_company_id", using: :btree
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.integer  "zip"
+    t.string   "state"
+    t.string   "country"
+    t.string   "email"
+    t.string   "phone"
+    t.integer  "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "clients", ["company_id"], name: "index_clients_on_company_id", using: :btree
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.integer  "zip"
+    t.string   "state"
+    t.string   "country"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "biltis", "clients"
+  add_foreign_key "biltis", "companies"
+  add_foreign_key "branches", "companies"
+  add_foreign_key "clients", "companies"
 end
